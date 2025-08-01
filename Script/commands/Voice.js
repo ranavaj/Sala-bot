@@ -1,50 +1,79 @@
-const fs = require("fs"),
-	path = require("path"),
-	axios = require("axios");
-module.exports.config = {
-	name: "bin",
-	version: "1.0",
-	hasPermssion: 2,
-	credits: "Shaon Ahmed",
-	description: "Upload local command files to a pastebin service.",
-	commandCategory: "utility",
-	usages: "[filename]",
-	cooldowns: 5
-}, module.exports.run = async function({
-	api: e,
-	event: s,
-	args: a
-}) {
-	if (0 === a.length) return e.sendMessage("📁 অনুগ্রহ করে ফাইলের নাম দিন।\nব্যবহার: pastebin <filename>", s.threadID, s.messageID);
-	const n = a[0],
-		r = path.join(__dirname, "..", "commands"),
-		t = path.join(r, n),
-		o = path.join(r, n + ".js");
-	let i;
-	if (fs.existsSync(t)) i = t;
-	else {
-		if (!fs.existsSync(o)) return e.sendMessage("❌ `commands` ফোল্ডারে ফাইলটি খুঁজে পাওয়া যায়নি।", s.threadID, s.messageID);
-		i = o
-	}
-	fs.readFile(i, "utf8", (async (a, n) => {
-		if (a) return console.error("❗ Read error:", a), e.sendMessage("❗ ফাইলটি পড়তে সমস্যা হয়েছে।", s.threadID, s.messageID);
-		try {
-			e.sendMessage("📤 ফাইল আপলোড হচ্ছে PasteBin-এ, অনুগ্রহ করে অপেক্ষা করুন...", s.threadID, (async (a, r) => {
-				if (a) return console.error(a);
-				const t = "https://pastebin-api.vercel.app",
-					o = await axios.post(`${t}/paste`, {
-						text: n
-					});
-				if (setTimeout((() => {
-						e.unsendMessage(r.messageID)
-					}), 1e3), o.data && o.data.id) {
-					const a = `${t}/raw/${o.data.id}`;
-					return e.sendMessage(`✅ ফাইল সফলভাবে আপলোড হয়েছে:\n🔗 ${a}`, s.threadID)
-				}
-				return console.error("⚠️ Unexpected API response:", o.data), e.sendMessage("⚠️ আপলোড ব্যর্থ হয়েছে। PasteBin সার্ভার থেকে সঠিক আইডি পাওয়া যায়নি।", s.threadID)
-			}))
-		} catch (a) {
-			return console.error("❌ Upload error:", a), e.sendMessage("❌ ফাইল আপলোড করতে সমস্যা হয়েছে:\n" + a.message, s.threadID)
-		}
-	}))
+const axios = require("axios");
+const fs = require("fs");
+const request = require("request");
+
+const emojiAudioMap = {
+ "🥺": {
+ url: "https://drive.google.com/uc?export=download&id=1Gyi-zGUv5Yctk5eJRYcqMD2sbgrS_c1R",
+ caption: "মিস ইউ বেপি...🥺"
+ },
+ "😍": {
+ url: "https://drive.google.com/uc?export=download&id=1lIsUIvmH1GFnI-Uz-2WSy8-5u69yQ0By",
+ caption: "তোমার প্রতি ভালোবাসা দিনকে দিন বাড়ছে... 😍"
+ },
+ "😭": {
+ url: "https://drive.google.com/uc?export=download&id=1qU27pXIm5MV1uTyJVEVslrfLP4odHwsa",
+ caption: "জান তুমি কান্না করতেছো কোনো... 😭"
+ },
+ "😡": {
+ url: "https://drive.google.com/uc?export=download&id=1S_I7b3_f4Eb8znzm10vWn99Y7XHaSPYa",
+ caption: "রাগ কমাও, মাফ করাই বড়ত্ব... 😡"
+ },
+ "🙄": {
+ url: "https://drive.google.com/uc?export=download&id=1gtovrHXVmQHyhK2I9F8d2Xbu7nKAa5GD",
+ caption: "এভাবে তাকিও না তুমি ভেবে লজ্জা লাগে ... 🙄"
+ },
+ "😑": {
+ url: "https://drive.google.com/uc?export=download&id=1azElOD2QeaMbV2OdCY_W3tErD8JQ3T7P",
+ caption: "লেবু খাও জান সব ঠিক হয়ে যাবে 😑"
+ },
+ "😒": {
+ url: "https://drive.google.com/uc?export=download&id=1tbKe8yiU0RbINPlQgOwnig7KPXPDzjXv",
+ caption: "বিরক্ত করো না জান... ❤️"
+ },
+ "🤣": {
+ url: "https://drive.google.com/uc?export=download&id=1Hvy_Xee8dAYp-Nul7iZtAq-xQt6-rNpU",
+ caption: "হাসলে তোমাকে পাগল এর মতো লাগে... 🤣"
+ },
+ "💔": {
+ url: "https://drive.google.com/uc?export=download&id=1jQDnFc5MyxRFg_7PsZXCVJisIIqTI8ZY",
+ caption: "feel this song... 💔"
+ },
+ "🙂": {
+ url: "https://drive.google.com/uc?export=download&id=1_sehHc-sDtzuqyB2kL_XGMuvm2Bv-Dqc",
+ caption: "তুমি কি আধো আমাকে ভালোবাসো ... 🙂"
+ }
 };
+
+module.exports.config = {
+ name: "emoji_voice",
+ version: "1.0.0",
+ hasPermssion: 0,
+ credits: "Islamick Chat Modified by Cyber-Sujon",
+ description: "10 emoji = 10 voice response",
+ commandCategory: "noprefix",
+ usages: "🥺 😍 😭 etc.",
+ cooldowns: 5
+};
+
+module.exports.handleEvent = async ({ api, event }) => {
+ const { threadID, messageID, body } = event;
+ if (!body) return;
+
+ const emoji = body.trim();
+ const audioData = emojiAudioMap[emoji];
+
+ if (!audioData) return;
+
+ const filePath = `${__dirname}/cache/${encodeURIComponent(emoji)}.mp3`;
+
+ const callback = () => api.sendMessage({
+ body: `╭•┄┅════❁🌺❁════┅┄•╮\n\n${audioData.caption}\n\n╰•┄┅════❁🌺❁════┅┄•╯`,
+ attachment: fs.createReadStream(filePath)
+ }, threadID, () => fs.unlinkSync(filePath), messageID);
+
+ const stream = request(encodeURI(audioData.url));
+ stream.pipe(fs.createWriteStream(filePath)).on("close", () => callback());
+};
+
+module.exports.run = () => {};
