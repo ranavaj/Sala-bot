@@ -62,7 +62,7 @@ module.exports.handleEvent = async function({ api, event, args, Threads, Users }
        
    };
 
-   if ((event.body.toLowerCase() == "owner") || (event.body.toLowerCase() == "ceo")) {
+   if ((event.body.toLowerCase() == "owner") || (event.body.toLowerCase() == "ownar")) {
      return api.sendMessage("‎[𝐎𝐖𝐍𝐄𝐑:☞ babu ッ ☜\n𝚈𝚘𝚞 𝙲𝚊𝚗 𝙲𝚊𝚕𝚕 𝙷𝚒𝚖 babu.\n𝐇𝐢𝐬 𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤 𝐢𝐝 :- https://www.facebook.com/share/16VPyFAFBU/তার সাতে যোগা যোগ করবেন WhatsApp :- +01743093922", threadID);
    };
 
@@ -159,7 +159,7 @@ module.exports.handleEvent = async function({ api, event, args, Threads, Users }
      return api.sendMessage("️চিন্তা করো কেন আমি বাবু তো আছি🫶/nতোমাকে রাইতে ভালোবাসবো", threadID);
    };
 
-   if ((event.body.toLowerCase() == "left new") || (event.body.toLowerCase() == "বট লিফট নেও")) {
+   if ((event.body.toLowerCase() == "left  new") || (event.body.toLowerCase() == "বট লিফট নেও")) {
      return api.sendMessage("আচ্ছা বস চলে যাচ্ছি যদি কেউ আমার কথা কষ্ট পেয়ে থাকেন তাহলে সরি 😓<🥺", threadID);
    };
    
@@ -167,7 +167,7 @@ module.exports.handleEvent = async function({ api, event, args, Threads, Users }
      return api.sendMessage("ভাই তুই এত হাসিস না হাসলে তোরে মফিজে মতো লাগে..!🌚🤣", threadID);
    };
 
-   if ((event.body.toLowerCase() == "🥰") || (event.body.toLowerCase() == "😍") || (event.body.toLowerCase() ==  "🥵") || (event.body.toLowerCase() == "❤️")) {
+   if ((event.body.toLowerCase() == "🥰") || (event.body.toLowerCase() == "😍") || (event.body.toLowerCase() ==  "😻") || (event.body.toLowerCase() == "❤️")) {
      return api.sendMessage("ভালোবাসা নামক আবলামী করতে চাইলে বাবু ইনবক্সে চলে যা পাগল ছাগল🌚🐸🌶️🍆", threadID);
    };
 
