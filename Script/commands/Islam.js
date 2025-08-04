@@ -3,9 +3,9 @@ module.exports.config = {
   name: "islam",
   version: "1.0.0",
   hasPermssion: 0,
-  credits: "Islamick Chat",
+  credits: "[ / ] • BABU ☢️_𖣘 -𝐁𝐎𝐓 ⚠️",
   description: "prefix VEDIO",
-  commandCategory: "𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️",
+  commandCategory: "𝐂𝐘𝐁𝐄𝐑 [ / ] • BABU ☢️_𖣘 -𝐁𝐎𝐓 ⚠️",
   usages: "love10 vedio",
   cooldowns: 5,
   dependencies: {
@@ -37,4 +37,3 @@ const fs = global.nodemodule["fs-extra"];
      var callback = () => api.sendMessage({body:` ${know} `,attachment: fs.createReadStream(__dirname + "/cache/15.mp4")}, event.threadID, () => fs.unlinkSync(__dirname + "/cache/15.mp4"));    
       return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname+"/cache/15.mp4")).on("close",() => callback());
    };
- 
