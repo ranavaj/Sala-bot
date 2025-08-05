@@ -3,7 +3,7 @@ module.exports.config = {
   name: "Obot",
   version: "1.0.1",
   hasPermssion: 0,
-  credits: "𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ 𝑻𝑬𝑨𝑴_ ☢️",
+  credits: "𝐂𝐘𝐁𝐄𝐑 ☢️_𖣘 -𝐁𝐎𝐓 ⚠️ BABU☢️",
   description: "goibot",
   commandCategory: "Noprefix",
   usages: "noprefix",
@@ -56,7 +56,7 @@ module.exports.handleEvent = async function({ api, event, args, Threads, Users }
      return api.sendMessage("~ তোমার বাল উঠে নাই নাকি তোমার?? 🤖", threadID);
    };
 
-  if ((event.body.toLowerCase() == "babu") || (event.body.toLowerCase() == "বাবু") || (event.body.toLowerCase() == "@বা্ঁবু্ঁ আ্ঁসো্ঁ ッ") || (event.body.toLowerCase() == "বাবু")) {
+  if ((event.body.toLowerCase() == "babu") || (event.body.toLowerCase() == "বাবু") || (event.body.toLowerCase() == "@বা্ঁবু্ঁ আ্ঁসো্ঁ") || (event.body.toLowerCase() == "বাবু")) {
      return api.sendMessage("রানা ভাই  এখন কাজে বিজি আছে কি বলবেন আমাকে বলতে পারেন..!😘",threadID);https://www.facebook.com/share/16VPyFAFBU/
 
        
@@ -210,20 +210,3 @@ module.exports.handleEvent = async function({ api, event, args, Threads, Users }
 }
 
 module.exports.run = function({ api, event, client, __GLOBAL }) { }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
